@@ -3,7 +3,7 @@ using Alura.ByteBank.Dominio.Entidades;
 using Moq;
 using System;
 using System.Collections.Generic;
-using Xunit;
+using Xunit; 
 
 namespace Alura.ByteBank.Infraestrutura.Testes
 {
