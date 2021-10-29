@@ -1,5 +1,7 @@
 ﻿using Alura.ByteBank.Dados.Repositorio;
 using Alura.ByteBank.Dominio.Entidades;
+using Alura.ByteBank.Dominio.Interfaces.Repositorios;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -12,13 +14,22 @@ namespace Alura.ByteBank.Infraestrutura.Testes
 {
     public class ClienteRepositorioTestes
     {
-         private ClienteRepositorio _repositorio;
+        private readonly IClienteRepositorio _repositorio;
+        public ClienteRepositorioTestes()
+        {
+            var servico = new ServiceCollection();
+            servico.AddTransient<IClienteRepositorio,ClienteRepositorio>();
+
+            var provedor = servico.BuildServiceProvider();
+            _repositorio = provedor.GetService<IClienteRepositorio>();
+          
+        }
 
          [Fact]
          public void TestaObterTodosClientes()
         {
             //Arrange
-            _repositorio = new ClienteRepositorio();
+            //_repositorio = new ClienteRepositorio();
 
             //Act
             List<Cliente> lista = _repositorio.ObterTodos();
@@ -32,7 +43,7 @@ namespace Alura.ByteBank.Infraestrutura.Testes
         public void TestaObterClientesPorId()
         {
             //Arrange
-            _repositorio = new ClienteRepositorio();
+            //_repositorio = new ClienteRepositorio();
 
             //Act
             var cliente = _repositorio.ObterPorId(1);
@@ -45,12 +56,10 @@ namespace Alura.ByteBank.Infraestrutura.Testes
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        [InlineData(3)]
-        [InlineData(4)]
         public void TestaObterClientesPorVariosId(int id)
         {
             //Arrange
-            _repositorio = new ClienteRepositorio();
+           // _repositorio = new ClienteRepositorio();
 
             //Act
             var cliente = _repositorio.ObterPorId(id);
@@ -64,7 +73,7 @@ namespace Alura.ByteBank.Infraestrutura.Testes
         public void TestaAtualizacaoInformacaoDeterminadoCliente()
         {
             //Arrange
-            _repositorio = new ClienteRepositorio();
+            //_repositorio = new ClienteRepositorio();
             var cliente = _repositorio.ObterPorId(2);
             var nomeNovo = "João Pedro";
             cliente.Nome = nomeNovo;

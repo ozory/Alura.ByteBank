@@ -39,8 +39,7 @@ namespace Alura.ByteBank.Infraestrutura.Testes
 
         [Theory]
         [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
+        [InlineData(2)]      
         public void TestaObterContasCorrentesPorVariosId(int id)
         {
             //Arrange
@@ -58,12 +57,12 @@ namespace Alura.ByteBank.Infraestrutura.Testes
         {
             //Arrange
             _repositorio = new ContaCorrenteRepositorio();
-            var conta = _repositorio.ObterPorId(2);
+            var conta = _repositorio.ObterPorId(1);
             double saldoNovo = 15;
             conta.Saldo = saldoNovo;
 
             //Act
-            var atualizado = _repositorio.Atualizar(2, conta);
+            var atualizado = _repositorio.Atualizar(1, conta);
 
             //Assert
             Assert.True(atualizado);

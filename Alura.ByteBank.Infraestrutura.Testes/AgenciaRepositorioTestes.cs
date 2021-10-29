@@ -15,7 +15,7 @@ namespace Alura.ByteBank.Infraestrutura.Testes
         private AgenciaRepositorio _repositorio;
 
         [Fact]
-        public void TestaObterTodasAgencias()
+        public void TestaObterTodasAgencias( )
         {
             //Arrange
             _repositorio = new AgenciaRepositorio();
@@ -44,7 +44,6 @@ namespace Alura.ByteBank.Infraestrutura.Testes
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        [InlineData(3)]
         public void TestaObterAgenciasPorVariosId(int id)
         {
             //Arrange
