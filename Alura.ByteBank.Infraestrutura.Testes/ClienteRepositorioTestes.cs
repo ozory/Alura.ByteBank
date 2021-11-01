@@ -17,6 +17,7 @@ namespace Alura.ByteBank.Infraestrutura.Testes
         private readonly IClienteRepositorio _repositorio;
         public ClienteRepositorioTestes()
         {
+            //Injetando dependências no construtor;
             var servico = new ServiceCollection();
             servico.AddTransient<IClienteRepositorio,ClienteRepositorio>();
 

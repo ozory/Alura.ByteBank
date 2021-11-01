@@ -10,6 +10,7 @@ namespace Alura.ByteBank.Infraestrutura.Testes
 {
     public class ByteBankContextoTestes
     {
+
         [Fact]
         public void TestaConexaoContextoComBDMySQL()
         {
