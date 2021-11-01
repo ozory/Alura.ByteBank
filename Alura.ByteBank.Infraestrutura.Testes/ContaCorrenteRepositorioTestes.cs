@@ -155,7 +155,7 @@ namespace Alura.ByteBank.Infraestrutura.Testes
             //Act
             var saldo = mock.consultaPix(guid).Saldo;
 
-
+            //Assert
             Assert.Equal(10, saldo);
         }
 
