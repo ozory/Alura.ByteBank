@@ -1,5 +1,7 @@
 ﻿using Alura.ByteBank.Dados.Repositorio;
 using Alura.ByteBank.Dominio.Entidades;
+using Alura.ByteBank.Dominio.Interfaces.Repositorios;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -9,14 +11,22 @@ namespace Alura.ByteBank.Infraestrutura.Testes
 {
     public class ContaCorrenteRepositorioTestes
     {
-        private ContaCorrenteRepositorio _repositorio;
+        private readonly IContaCorrenteRepositorio _repositorio;
 
+        public ContaCorrenteRepositorioTestes()
+        {
+            //Injetando dependências no construtor;
+            var servico = new ServiceCollection();
+            servico.AddTransient<IContaCorrenteRepositorio, ContaCorrenteRepositorio>();
+
+            var provedor = servico.BuildServiceProvider();
+            _repositorio = provedor.GetService<IContaCorrenteRepositorio>();
+
+        }
         [Fact]
         public void TestaObterTodasContasCorrentes()
         {
             //Arrange
-            _repositorio = new ContaCorrenteRepositorio();
-
             //Act
             List<ContaCorrente> lista = _repositorio.ObterTodos();
 
@@ -28,8 +38,6 @@ namespace Alura.ByteBank.Infraestrutura.Testes
         public void TestaObterContaCorrentePorId()
         {
             //Arrange
-            _repositorio = new ContaCorrenteRepositorio();
-
             //Act
             var conta = _repositorio.ObterPorId(1);
 
@@ -39,12 +47,10 @@ namespace Alura.ByteBank.Infraestrutura.Testes
 
         [Theory]
         [InlineData(1)]
-        [InlineData(2)]      
+        [InlineData(2)]
         public void TestaObterContasCorrentesPorVariosId(int id)
         {
             //Arrange
-            _repositorio = new ContaCorrenteRepositorio();
-
             //Act
             var conta = _repositorio.ObterPorId(id);
 
@@ -52,14 +58,30 @@ namespace Alura.ByteBank.Infraestrutura.Testes
             Assert.NotNull(conta);
         }
 
+
+        [Fact]
+        public void TestaAtualizaSaldoDeterminadaConta()
+        {
+            //Arrange
+
+            var conta = _repositorio.ObterPorId(1);
+            double saldoNovo = 15;
+            conta.Saldo = saldoNovo;
+
+            //Act
+            var atualizado = _repositorio.Atualizar(1, conta);
+
+            //Assert
+            Assert.True(atualizado);
+        }
+
         [Fact]
         public void TestaInsereUmaNovaContaCorrenteNoBancoDeDados()
         {
-            //Arrange
-            _repositorio = new ContaCorrenteRepositorio();
+            //Arrange           
             var conta = new ContaCorrente()
             {
-                Saldo = 10,                
+                Saldo = 10,
                 Identificador = Guid.NewGuid(),
                 Cliente = new Cliente()
                 {
@@ -85,21 +107,6 @@ namespace Alura.ByteBank.Infraestrutura.Testes
             //Assert
             Assert.True(retorno);
 
-        }
-        [Fact]
-        public void TestaAtualizaSaldoDeterminadaConta()
-        {
-            //Arrange
-            _repositorio = new ContaCorrenteRepositorio();
-            var conta = _repositorio.ObterPorId(1);
-            double saldoNovo = 15;
-            conta.Saldo = saldoNovo;
-
-            //Act
-            var atualizado = _repositorio.Atualizar(1, conta);
-
-            //Assert
-            Assert.True(atualizado);
         }
 
         // Testes com Mock
