@@ -56,6 +56,30 @@ namespace Alura.ByteBank.Infraestrutura.Testes
             Assert.NotNull(agencia);
 
         }
+        [Fact]
+        public void TesteInsereUmaNovaAgenciaNaBaseDeDados()
+        {
+            //Arrange            
+            string nome = "Agencia Guarapari";
+            int numero = 125982;
+            Guid identificador = Guid.NewGuid();
+            string endereco = "Rua: 7 de Setembro - Centro";
+            _repositorio = new AgenciaRepositorio();
+
+            var agencia = new Agencia()
+            {
+                Nome = nome,
+                Identificador = identificador,            
+                Endereco = endereco,
+                Numero = numero
+            };
+
+            //Act
+            var retorno = _repositorio.Adicionar(agencia);
+
+            //Assert
+            Assert.True(retorno);
+        }
 
         [Fact]
         public void TestaAtualizacaoInformacaoDeterminadaAgencia()
@@ -71,6 +95,34 @@ namespace Alura.ByteBank.Infraestrutura.Testes
 
             //Assert
             Assert.True(atualizado);
+        }
+
+        [Fact]
+        public void TestaRemoverInformacaoDeterminadaAgencia()
+        {
+            //Arrange
+            _repositorio = new AgenciaRepositorio();
+    
+
+            //Act
+            var atualizado = _repositorio.Excluir(3);
+
+            //Assert
+            Assert.True(atualizado);
+        }
+
+        //Exceções
+        [Fact]
+        public void TestaExcecaoConsultaPorAgenciaPorId()
+        {
+
+            //Act
+            _repositorio = new AgenciaRepositorio();
+            //Assert
+            Assert.Throws<FormatException>(
+                () => _repositorio.ObterPorId(33)
+             );
+
         }
 
 

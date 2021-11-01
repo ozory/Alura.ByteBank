@@ -53,6 +53,40 @@ namespace Alura.ByteBank.Infraestrutura.Testes
         }
 
         [Fact]
+        public void TestaInsereUmaNovaContaCorrenteNoBancoDeDados()
+        {
+            //Arrange
+            _repositorio = new ContaCorrenteRepositorio();
+            var conta = new ContaCorrente()
+            {
+                Saldo = 10,                
+                Identificador = Guid.NewGuid(),
+                Cliente = new Cliente()
+                {
+                    Nome = "Kent Nelson",
+                    CPF = "486.074.980-45",
+                    Identificador = Guid.NewGuid(),
+                    Profissao = "Bancário",
+                    Id = 1
+                },
+                Agencia = new Agencia()
+                {
+                    Nome = "Agencia Central Coast City",
+                    Identificador = Guid.NewGuid(),
+                    Id = 1,
+                    Endereco = "Rua das Flores,25",
+                    Numero = 147
+                }
+            };
+
+            //Act
+            var retorno = _repositorio.Adicionar(conta);
+
+            //Assert
+            Assert.True(retorno);
+
+        }
+        [Fact]
         public void TestaAtualizaSaldoDeterminadaConta()
         {
             //Arrange

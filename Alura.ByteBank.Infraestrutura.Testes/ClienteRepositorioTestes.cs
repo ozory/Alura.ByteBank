@@ -71,6 +71,32 @@ namespace Alura.ByteBank.Infraestrutura.Testes
         }
 
         [Fact]
+        public void TesteInsereUmNovoClienteNaBaseDeDados()
+        {
+            //Arrange            
+            string nome = "Alberto Roberto";
+            string cpf = "088.157.930-03";
+            Guid identificador = Guid.NewGuid();
+            string profissao = "Administrador de Empresas";          
+            
+            var cliente = new Cliente()
+            {
+                Nome = nome,
+                CPF = cpf,
+                Identificador = identificador,
+                Profissao = profissao               
+            };
+
+            //Act
+            var retorno = _repositorio.Adicionar(cliente);
+
+            //Assert
+            Assert.True(retorno);
+
+
+        }
+
+        [Fact]
         public void TestaAtualizacaoInformacaoDeterminadoCliente()
         {
             //Arrange
