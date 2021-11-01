@@ -119,7 +119,7 @@ namespace Alura.ByteBank.Infraestrutura.Testes
             //Act
             _repositorio = new AgenciaRepositorio();
             //Assert
-            Assert.Throws<FormatException>(
+            Assert.Throws<Exception>(
                 () => _repositorio.ObterPorId(33)
              );
 
