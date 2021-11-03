@@ -6,16 +6,21 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System;
 using System.Collections.Generic;
-using Xunit; 
+using Xunit;
+using Xunit.Abstractions;
 
 namespace Alura.ByteBank.Infraestrutura.Testes
 {
     public class ContaCorrenteRepositorioTestes
     {
+        public ITestOutputHelper SaidaConsoleTeste;
         private readonly IContaCorrenteRepositorio _repositorio;
 
-        public ContaCorrenteRepositorioTestes()
+        public ContaCorrenteRepositorioTestes(ITestOutputHelper _saidaConsoleTeste)
         {
+            SaidaConsoleTeste = _saidaConsoleTeste;
+            SaidaConsoleTeste.WriteLine("Construtor invocado.");
+
             //Injetando dependências no construtor;
             var servico = new ServiceCollection();
             servico.AddTransient<IContaCorrenteRepositorio, ContaCorrenteRepositorio>();
@@ -159,5 +164,9 @@ namespace Alura.ByteBank.Infraestrutura.Testes
             Assert.Equal(10, saldo);
         }
 
+        public void Dispose()
+        {
+            SaidaConsoleTeste.WriteLine("Destrutor invocado.");
+        }
     }
 }

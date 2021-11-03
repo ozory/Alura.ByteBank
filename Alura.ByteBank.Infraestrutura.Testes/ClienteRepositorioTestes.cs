@@ -9,14 +9,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Alura.ByteBank.Infraestrutura.Testes
 {
     public class ClienteRepositorioTestes
     {
+        public ITestOutputHelper SaidaConsoleTeste;
         private readonly IClienteRepositorio _repositorio;
-        public ClienteRepositorioTestes()
+        public ClienteRepositorioTestes(ITestOutputHelper _saidaConsoleTeste)
         {
+            SaidaConsoleTeste = _saidaConsoleTeste;
+            SaidaConsoleTeste.WriteLine("Construtor invocado.");
             //Injetando dependências no construtor;
             var servico = new ServiceCollection();
             servico.AddTransient<IClienteRepositorio,ClienteRepositorio>();
@@ -127,6 +131,9 @@ namespace Alura.ByteBank.Infraestrutura.Testes
             bytebankRepositorioMock.Verify(b => b.BuscarClientes());
         }
 
-
+        public void Dispose()
+        {
+            SaidaConsoleTeste.WriteLine("Destrutor invocado.");
+        }
     }
 }

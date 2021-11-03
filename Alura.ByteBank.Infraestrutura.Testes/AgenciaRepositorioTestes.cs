@@ -9,26 +9,29 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Alura.ByteBank.Infraestrutura.Testes
 {
     public class AgenciaRepositorioTestes
     {
         private readonly IAgenciaRepositorio _repositorio;
+        public ITestOutputHelper SaidaConsoleTeste;
 
-        public AgenciaRepositorioTestes()
+        public AgenciaRepositorioTestes(ITestOutputHelper _saidaConsoleTeste)
         {
+            SaidaConsoleTeste = _saidaConsoleTeste;
+            SaidaConsoleTeste.WriteLine("Construtor invocado.");
             //Injetando dependências no construtor;
             var servico = new ServiceCollection();
             servico.AddTransient<IAgenciaRepositorio, AgenciaRepositorio>();
-
             var provedor = servico.BuildServiceProvider();
             _repositorio = provedor.GetService<IAgenciaRepositorio>();
 
         }
 
         [Fact]
-        public void TestaObterTodasAgencias()
+        public void TestaObterTodasAgenciasRepositorio()
         {
             //Arrange         
 
@@ -40,7 +43,7 @@ namespace Alura.ByteBank.Infraestrutura.Testes
         }
 
         [Fact]
-        public void TestaObterAgenciaPorId()
+        public void TestaObterAgenciaPorIdRepositorio()
         {
             //Arrange
 
@@ -55,9 +58,9 @@ namespace Alura.ByteBank.Infraestrutura.Testes
         [Theory]
         [InlineData(1)]
         [InlineData(2)]
-        public void TestaObterAgenciasPorVariosId(int id)
+        public void TestaObterAgenciasPorVariosIdRepositorio(int id)
         {
-            //Arrange            
+            //Arrange       
 
             //Act
             var agencia = _repositorio.ObterPorId(id);
@@ -68,7 +71,7 @@ namespace Alura.ByteBank.Infraestrutura.Testes
         }
 
         [Fact]
-        public void TesteInsereUmaNovaAgenciaNaBaseDeDados()
+        public void TesteInsereUmaNovaAgenciaNaBaseDeDadosRepositorio()
         {
             //Arrange            
             string nome = "Agencia Guarapari";
@@ -91,7 +94,7 @@ namespace Alura.ByteBank.Infraestrutura.Testes
             Assert.True(retorno);
         }
         [Fact]
-        public void TestaAtualizacaoInformacaoDeterminadaAgencia()
+        public void TestaAtualizacaoInformacaoDeterminadaAgenciaRepositorio()
         {
             //Arrange      
             var agencia = _repositorio.ObterPorId(2);
@@ -110,7 +113,7 @@ namespace Alura.ByteBank.Infraestrutura.Testes
         {
             //Arrange
             //Act
-            var atualizado = _repositorio.Excluir(3);
+            var atualizado = _repositorio.Excluir(5);
 
             //Assert
             Assert.True(atualizado);
@@ -166,6 +169,11 @@ namespace Alura.ByteBank.Infraestrutura.Testes
 
             //Assert
             Assert.True(adicionado);
+        }
+
+        public void Dispose()
+        {
+            SaidaConsoleTeste.WriteLine("Destrutor invocado.");
         }
     }
 }
